@@ -1,0 +1,30 @@
+pacp_capture
+
+使用tcpdump截获数据包并保存成pacp文件，每天一个文件夹，
+每次启动将启动时间设为文件名，以防止重启后覆盖已截获的
+pacp文件。截获指定(传参)网口的流量，默认网口为eth0。
+usage: ./pacp_capture start       (开始截获流量，默认网口eth0)
+	  ./pacp_capture start eth1  (开始截获流量，指定网口eth1)
+	  ./pacp_capture stop        (停止截获流量)
+	  ./pacp_capture restart     (重新开始截获流量)
+
+
+auto_upload
+
+上传截获的pcap文件至指定的FTP,当pcap总文件到达一定值
+(MAX_VOL)时就开始上传文件，传输成功后即将成功传输的
+pacp文件删除。若传输不成功则由守护脚本charon处理。
+调用时需传入文件自动上传下限容量(即MAX_VOL)。
+   usage: ./auto_upload
+
+charon
+
+取名自冥王星的一个卫星————“卡戎星”,意为守护脚本。每当
+上传pcap文件时,auto_upload就会调用此脚本，以解决网络
+发生故障等情况。当上传完毕时auto_upload会自动关闭此脚
+本。运行时需传入正在上传的pacp文件名和管理员邮箱，
+等待300s，若300s都未传完一个pacp文件(20M)，则判为传输
+失败，写入错误日志，将错误报告发送至管理员邮箱，并终止
+自动上传脚本和ftp传输进程。
+ usage: ./charon 20140827 xxxx@gmail.com
+          [ps: 20140827为pcap文件，xxxx@gmail.com为管理员邮箱]
