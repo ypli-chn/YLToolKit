@@ -14,7 +14,7 @@ auto_upload
 上传截获的pcap文件至指定的FTP,当pcap总文件到达一定值
 (MAX_VOL)时就开始上传文件，传输成功后即将成功传输的
 pacp文件删除。若传输不成功则由守护脚本charon处理。
-调用时需传入文件自动上传下限容量(即MAX_VOL)。
+
    usage: ./auto_upload
 
 charon
